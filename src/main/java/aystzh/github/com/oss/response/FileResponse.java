@@ -3,7 +3,7 @@
 package aystzh.github.com.oss.response;
 
 
-public class FileBinaryResponse {
+public class FileResponse {
     /***
      * id
      */
@@ -17,7 +17,7 @@ public class FileBinaryResponse {
      */
     private String store;
 
-    public FileBinaryResponse(String id, String url, String store) {
+    public FileResponse(String id, String url, String store) {
         this.id = id;
         this.url = url;
         this.store = store;
