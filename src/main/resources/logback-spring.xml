@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <springProperty scope="context" name="springAppName" source="spring.application.name"/>
+    <springProperty scope="context" name="logPath" source="log.path" defaultValue="./applogs"/>
+    <springProperty scope="context" name="logLevel" source="log.level" defaultValue="info"/>
+    <springProperty scope="context" name="logHistory" source="log.history" defaultValue="7"/>
+
+    <!-- 输出到控制台 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] [%class:%line] - %m %n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+    </appender>
+
+    <!-- 输出正常访问日志文件 -->
+    <appender name="FILE-OUT" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/${springAppName}/info.log</file>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%level] [%class:%line] - %m %n</pattern>
+            <charset>utf8</charset>
+        </encoder>
+        <!-- 设置滚动策略 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- #########生产############ -->
+            <!--设置日志命名模式-->
+            <fileNamePattern>${logPath}/${springAppName}/log_info_%d{yyyy-MM-dd}_%i.log.zip</fileNamePattern>
+            <!-- each file should be at most 100MB, keep 60 days worth of Cantigs history, but at most 20GB  -->
+            <!--最多保留7天log-->
+            <maxHistory>${logHistory}</maxHistory>
+            <!--超过100MB时，触发滚动策略-->
+            <maxFileSize>20MB</maxFileSize>
+            <!-- 所有日志大小不高于1G -->
+            <totalSizeCap>100MB</totalSizeCap>
+            <!-- #########生产############ -->
+        </rollingPolicy>
+        <append>true</append>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+    <!-- 输出错误日志文件 -->
+    <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${logPath}/${springAppName}/error.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <fileNamePattern>${logPath}/${springAppName}/log_error_%d{yyyy-MM-dd}_%i.log.zip</fileNamePattern>
+            <!-- each file should be at most 100MB, keep 60 days worth of Cantigs history, but at most 20GB  -->
+            <!--最多保留7天log-->
+            <maxHistory>${logHistory}</maxHistory>
+            <!--超过100MB时，触发滚动策略-->
+            <maxFileSize>20MB</maxFileSize>
+            <!-- 所有日志大小不高于1G -->
+            <totalSizeCap>100MB</totalSizeCap>
+            <!-- #########生产############ -->
+        </rollingPolicy>
+        <append>true</append>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %level [%thread] [%logger] [Line:%4L] -> %msg%n</pattern>
+            <charset>utf-8</charset>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 1. 输出SQL 到控制台和文件-->
+    <logger name="org.hibernate.SQL" additivity="false" >
+        <level value="DEBUG" />
+        <appender-ref ref="FILE-OUT" />
+        <appender-ref ref="STDOUT" />
+    </logger>
+    <!-- 2. 输出SQL 的参数到控制台和文件-->
+    <logger name="org.hibernate.type.descriptor.sql.BasicBinder" additivity="false" level="TRACE" >
+        <level value="TRACE" />
+        <appender-ref ref="FILE-OUT" />
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.springframework" level="ERROR" />
+    <logger name="cn.com.bmsmart" level="INFO" />
+
+    <root level="${logLevel}">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE-OUT" />
+        <appender-ref ref="FILE-ERROR" />
+    </root>
+</configuration>
