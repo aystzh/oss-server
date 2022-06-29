@@ -7,7 +7,7 @@ public class FileResponse {
     /***
      * id
      */
-    private String id;
+    private String name;
     /***
      * 在线url地址
      */
@@ -17,18 +17,18 @@ public class FileResponse {
      */
     private String store;
 
-    public FileResponse(String id, String url, String store) {
-        this.id = id;
+    public FileResponse(String name, String url, String store) {
+        this.name = name;
         this.url = url;
         this.store = store;
     }
 
-    public String getId() {
-        return id;
+    public String getName() {
+        return name;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getUrl() {

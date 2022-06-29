@@ -11,12 +11,12 @@ import org.springframework.context.annotation.Configuration;
  */
 @Configuration
 @Data
-public class MaterialConfigInfo {
+public class LocalStorageConfigInfo {
 
-    @Value(value = "${material.root}")
+    @Value(value = "${local.root}")
     private String root;
 
-    @Value(value = "${material.invokingRoot}")
+    @Value(value = "${local.invokingRoot}")
     private String invokingRoot;
 
     @Bean

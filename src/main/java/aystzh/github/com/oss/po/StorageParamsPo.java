@@ -1,10 +1,9 @@
 package aystzh.github.com.oss.po;
 
-import aystzh.github.com.oss.config.MaterialConfigInfo;
+import aystzh.github.com.oss.enums.StoreTypeEnum;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
 import java.io.Serializable;
 
 /**
@@ -13,9 +12,9 @@ import java.io.Serializable;
 @Data
 public class StorageParamsPo implements Serializable {
 
-    private MaterialConfigInfo materialConfigInfo;
+    private String project;
 
-    private File file;
+    private StoreTypeEnum storeTypeEnum;
 
     private MultipartFile[] files;
 }

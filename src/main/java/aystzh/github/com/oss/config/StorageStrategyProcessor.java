@@ -33,8 +33,8 @@ public class StorageStrategyProcessor implements BeanFactoryPostProcessor {
             //将注解当中的类型作为key，class作为value
             handlerMap.put(value, aClass);
         });
-        StorageStrategyContext semanticParsingContext = new StorageStrategyContext(handlerMap);
+        StorageStrategyContext storageStrategyContext = new StorageStrategyContext(handlerMap);
         //默认单例
-        configurableListableBeanFactory.registerSingleton(StorageStrategyContext.class.getName(), semanticParsingContext);
+        configurableListableBeanFactory.registerSingleton(StorageStrategyContext.class.getName(), storageStrategyContext);
     }
 }

@@ -1,54 +1,58 @@
 package aystzh.github.com.oss.service.storage.strategy;
 
-import aystzh.github.com.jpa.common.service.impl.AbstractBaseApiServiceImpl;
 import aystzh.github.com.oss.annotations.StorageType;
-import aystzh.github.com.oss.common.ThreadLocalHolder;
-import aystzh.github.com.oss.config.MaterialConfigInfo;
-import aystzh.github.com.oss.entities.OssFileInfoEntity;
+import aystzh.github.com.oss.config.LocalStorageConfigInfo;
 import aystzh.github.com.oss.enums.StoreTypeEnum;
 import aystzh.github.com.oss.po.StorageParamsPo;
-import aystzh.github.com.oss.repository.OssFileInfoRepository;
 import aystzh.github.com.oss.response.FileResponse;
 import aystzh.github.com.oss.service.storage.StorageStrategy;
 import aystzh.github.com.oss.utils.FileUploadUtils;
 import cn.hutool.core.date.DateTime;
 import cn.hutool.core.util.RandomUtil;
-import cn.hutool.extra.servlet.ServletUtil;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.annotation.Resource;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.math.BigDecimal;
 import java.util.List;
 
 /**
  * Created by zhanghuan on 2022/6/28.
  */
 @Slf4j
+@ConditionalOnProperty(
+        value = {"oss.platform.local.enabled"},
+        havingValue = "true"
+)
 @Component
 @StorageType(value = StoreTypeEnum.LOCAL_STORAGE)
-@Transactional
-public class LocalStorageStrategy extends AbstractBaseApiServiceImpl implements StorageStrategy {
+public class LocalStorageStrategy implements StorageStrategy {
 
-    @Resource
-    private OssFileInfoRepository ossFileInfoRepository;
+    @Autowired
+    private LocalStorageConfigInfo localStorageConfigInfo;
+
 
     @Override
     public List<FileResponse> saveAndStore(StorageParamsPo storageParamsPo) throws Exception {
-        String ip = ServletUtil.getClientIP(ThreadLocalHolder.getRequest(), null);
-        MaterialConfigInfo materialConfigInfo = storageParamsPo.getMaterialConfigInfo();
-        File projectDirectory = storageParamsPo.getFile();
+        log.info("进入LOCAL STORAGE存储");
+        String root = localStorageConfigInfo.getRoot();
+        String project = storageParamsPo.getProject();
+        File file = new File(root);
+        FileUploadUtils.createDirectoryQuietly(file);
+        StringBuffer path = new StringBuffer();
+        path.append(file.getAbsolutePath());
+        path.append(File.separator);
+        path.append(project);
+        log.info("path:{}", path);
+        File projectDirectory = new File(path.toString());
+        FileUploadUtils.createDirectoryQuietly(projectDirectory);
         MultipartFile[] multipartFiles = storageParamsPo.getFiles();
-        //存ossMaterialInfo对象
-        List<OssFileInfoEntity> ossMaterialInfos = Lists.newArrayList();
-        String root = materialConfigInfo.getRoot();
         File rootFile = new File(root);
         int start = rootFile.getAbsolutePath().length();
         String currentTimeString = DateTime.now().toString("yyyyMMddHHmmss");
@@ -81,9 +85,9 @@ public class LocalStorageStrategy extends AbstractBaseApiServiceImpl implements 
             storePathBuffer.append(pre).append("/")
                     .append(monthPath).append("/").append(dayPath).append("/").append(fileName);
             //判断最后一位是否是/
-            String invokePath = materialConfigInfo.getInvokingRoot();
+            String invokePath = localStorageConfigInfo.getInvokingRoot();
             if (invokePath.endsWith("/")) {
-                invokePath = materialConfigInfo.getInvokingRoot().substring(0, invokePath.lastIndexOf("/"));
+                invokePath = localStorageConfigInfo.getInvokingRoot().substring(0, invokePath.lastIndexOf("/"));
             }
             String url = invokePath + storePathBuffer.toString();
             File targetFile = new File(saveFileDirectory.getAbsolutePath() + "/" + fileName);
@@ -99,28 +103,10 @@ public class LocalStorageStrategy extends AbstractBaseApiServiceImpl implements 
             IOUtils.closeQuietly(ins);
             //不可执行,防止恶意脚本攻击system
             targetFile.setExecutable(false);
-            FileResponse fileResponse = new FileResponse(uuid, url, storePathBuffer.toString());
+            FileResponse fileResponse = new FileResponse(originalName, url, storePathBuffer.toString());
             fileRespons.add(fileResponse);
-            ossMaterialInfos.add(createTargetMaterial(ip, originalName, mediaType, targetFile, fileResponse));
         }
-        ossFileInfoRepository.saveAll(ossMaterialInfos);
         return fileRespons;
-    }
-
-    private OssFileInfoEntity createTargetMaterial(String ip, String originalName, String mediaType, File targetFile, FileResponse fileResponse) {
-        //添加ossMaterial对象
-        OssFileInfoEntity ossMaterialInfo = new OssFileInfoEntity();
-        ossMaterialInfo.setOriginalName(originalName);
-        ossMaterialInfo.setFromIp(ip);
-        ossMaterialInfo.setCreateDate(DateTime.now());
-        ossMaterialInfo.setUpdateDate(DateTime.now());
-        ossMaterialInfo.setStorePath(fileResponse.getStore());
-        ossMaterialInfo.setUrl(fileResponse.getUrl());
-        ossMaterialInfo.setLen(new BigDecimal(targetFile.length()).intValue());
-        ossMaterialInfo.setByteStr(FileUploadUtils.byteToString(ossMaterialInfo.getLen()));
-        ossMaterialInfo.setUserId("");
-        ossMaterialInfo.setType(mediaType);
-        return ossMaterialInfo;
     }
 
 }

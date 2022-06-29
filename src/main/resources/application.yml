@@ -2,23 +2,8 @@ server:
   port: 8090
   servlet:
     context-path: /oss
+
 spring:
-  datasource:
-    url: jdbc:log4jdbc:mysql://localhost:3306/eladmin?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
-    username: root
-    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
-    password: 123456
-
-  #配置 Jpa
-  jpa:
-    hibernate:
-      ddl-auto: update
-    open-in-view: true
-    show-sql: true
-    properties:
-      hibernate:
-        dialect: aystzh.github.com.oss.config.DefaultMySQL57InnoDBDialect
-
   #file配置
   servlet:
     multipart:
@@ -26,6 +11,30 @@ spring:
       enabled: true
       max-request-size: 1024MB
 
-material:
+
+oss:
+  platform:
+    local:
+      enabled: true
+    fdfs:
+      enabled: true
+
+#######存储配置设置#########
+local:
   root: /Users/zhanghuan/Desktop/upload
-  invokingRoot: http://192.168.0.7/
+  invokingRoot: 192.168.0.7
+
+###FASTDFS CONFIG START###
+fdfs:
+  connect-timeout: 600
+  so-timeout: 1500
+  thumb-image:
+    height: 150
+    width: 150
+  tracker-list:
+    - 10.0.46.130:44144
+  http: 10.0.46.130:40002
+  pool:
+    jmx-enabled: false
+
+#######存储配置设置#########

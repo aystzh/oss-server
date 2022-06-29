@@ -19,33 +19,15 @@
         <java.version>1.8</java.version>
         <springboot.version>2.6.3</springboot.version>
         <configuration.version>1.9</configuration.version>
-        <spring.boot.starter.version>2.1.0.RELEASE</spring.boot.starter.version>
-        <hutool.version>5.3.4</hutool.version>
+        <hutool.version>5.7.21</hutool.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
-        <druid.version>1.1.22</druid.version>
-        <log4jdbc.version>1.16</log4jdbc.version>
         <guava.version>23.0</guava.version>
-        <net.sf.dozer.version>5.5.1</net.sf.dozer.version>
         <org.hibernate.validator.version>6.2.0.Final</org.hibernate.validator.version>
-        <mysql.connector.java.version>8.0.28</mysql.connector.java.version>
         <lombok.version>1.18.22</lombok.version>
-        <spring.data.jpa.common.version>1.0-SNAPSHOT</spring.data.jpa.common.version>
+        <fastdfs.client.version>1.26.6</fastdfs.client.version>
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>aystzh.github</groupId>
-            <artifactId>spring-data-jpa-common</artifactId>
-            <version>${spring.data.jpa.common.version}</version>
-        </dependency>
-
-        <!--Spring boot 核心-->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>${springboot.version}</version>
-        </dependency>
-
         <!--Spring boot Web容器-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -61,12 +43,11 @@
             <version>${springboot.version}</version>
         </dependency>
 
-        <!--Mysql依赖包-->
+        <!--FAST DFS -->
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <scope>runtime</scope>
-            <version>${mysql.connector.java.version}</version>
+            <groupId>com.github.tobato</groupId>
+            <artifactId>fastdfs-client</artifactId>
+            <version>${fastdfs.client.version}</version>
         </dependency>
 
         <!--工具包 start-->
