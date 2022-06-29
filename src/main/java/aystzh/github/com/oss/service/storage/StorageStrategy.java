@@ -1,7 +1,7 @@
 package aystzh.github.com.oss.service.storage;
 
 import aystzh.github.com.oss.po.StorageParamsPo;
-import aystzh.github.com.oss.response.FileResponse;
+import aystzh.github.com.oss.response.StorageInfoResponse;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  */
 public interface StorageStrategy {
 
-    List<FileResponse> upload(StorageParamsPo storageParamsPo) throws Exception;
+    List<StorageInfoResponse> upload(StorageParamsPo storageParamsPo) throws Exception;
 
     void download(String fileId, HttpServletResponse response) throws Exception;
 }

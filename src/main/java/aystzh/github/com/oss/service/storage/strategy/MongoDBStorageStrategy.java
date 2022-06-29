@@ -3,7 +3,7 @@ package aystzh.github.com.oss.service.storage.strategy;
 import aystzh.github.com.oss.annotations.StorageType;
 import aystzh.github.com.oss.enums.StoreTypeEnum;
 import aystzh.github.com.oss.po.StorageParamsPo;
-import aystzh.github.com.oss.response.FileResponse;
+import aystzh.github.com.oss.response.StorageInfoResponse;
 import aystzh.github.com.oss.service.storage.StorageStrategy;
 import com.github.tobato.fastdfs.FdfsClientConfig;
 import com.google.common.collect.Lists;
@@ -49,9 +49,9 @@ public class MongoDBStorageStrategy implements StorageStrategy {
     private GridFSBucket gridFSBucket;
 
     @Override
-    public List<FileResponse> upload(StorageParamsPo storageParamsPo) throws Exception {
+    public List<StorageInfoResponse> upload(StorageParamsPo storageParamsPo) throws Exception {
         log.info("进入MONGODB存储逻辑");
-        List<FileResponse> fileResponses = Lists.newArrayList();
+        List<StorageInfoResponse> responses = Lists.newArrayList();
         MultipartFile[] files = storageParamsPo.getFiles();
         for (MultipartFile multipartFile : files) {
             // 获得提交的文件名
@@ -63,10 +63,12 @@ public class MongoDBStorageStrategy implements StorageStrategy {
             // 将文件存储到mongodb中
             ObjectId objectId = gridFsTemplate.store(ins, fileName, contentType);
             log.info("保存成功，objectId:" + objectId);
-            FileResponse fileResponse = new FileResponse(fileName, String.valueOf(objectId), "");
-            fileResponses.add(fileResponse);
+            StorageInfoResponse storageInfoResponse = new StorageInfoResponse();
+            storageInfoResponse.setFileName(fileName);
+            storageInfoResponse.setMongodbId(String.valueOf(objectId));
+            responses.add(storageInfoResponse);
         }
-        return fileResponses;
+        return responses;
     }
 
     @Override

@@ -3,7 +3,7 @@ package aystzh.github.com.oss.service.storage.strategy;
 import aystzh.github.com.oss.annotations.StorageType;
 import aystzh.github.com.oss.enums.StoreTypeEnum;
 import aystzh.github.com.oss.po.StorageParamsPo;
-import aystzh.github.com.oss.response.FileResponse;
+import aystzh.github.com.oss.response.StorageInfoResponse;
 import aystzh.github.com.oss.service.storage.StorageStrategy;
 import aystzh.github.com.oss.utils.FastdfsUtils;
 import com.github.tobato.fastdfs.FdfsClientConfig;
@@ -41,23 +41,26 @@ public class FastDFSStorageStrategy implements StorageStrategy {
     private String httpPath;
 
     @Override
-    public List<FileResponse> upload(StorageParamsPo storageParamsPo) throws Exception {
+    public List<StorageInfoResponse> upload(StorageParamsPo storageParamsPo) throws Exception {
         log.info("进入fastdfs逻辑");
-        List<FileResponse> fileResponses = Lists.newArrayList();
+        List<StorageInfoResponse> responses = Lists.newArrayList();
         MultipartFile[] files = storageParamsPo.getFiles();
         for (MultipartFile multipartFile : files) {
             String originalFilename = multipartFile.getOriginalFilename();
-            StorePath upload = fastdfsUtils.upload(files[0]);
+            StorePath upload = fastdfsUtils.upload(multipartFile);
             log.info(upload.getGroup());
             String fullPath = upload.getFullPath();
             String path = upload.getPath();
             String group = upload.getGroup();
             String absolutePath = group + File.separator + path;
             String url = String.format("%s%s%s", httpPath, File.separator, fullPath);
-            FileResponse fileResponse = new FileResponse(originalFilename, url, absolutePath);
-            fileResponses.add(fileResponse);
+            StorageInfoResponse storageInfoResponse = new StorageInfoResponse();
+            storageInfoResponse.setFilePath(url);
+            storageInfoResponse.setFileName(originalFilename);
+            storageInfoResponse.setPathDir(absolutePath);
+            responses.add(storageInfoResponse);
         }
-        return fileResponses;
+        return responses;
     }
 
     @Override

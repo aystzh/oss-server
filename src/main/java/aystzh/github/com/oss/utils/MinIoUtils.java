@@ -143,7 +143,7 @@ public class MinIoUtils {
 
         objectName = StringUtils.trimLeadingCharacter(StringUtils.trimTrailingCharacter(objectName.trim(), '/'), '/');
 
-        String objectUrl = String.format("%s:%s/%s", bucketName, minIoProperties.getPort(), objectName);
+        String objectUrl = String.format("%s/%s", bucketName, objectName);
         if (StringUtils.hasText(minIoProperties.getEndpoint())) {
             objectUrl = String.format("%s:%s/%s", minIoProperties.getEndpoint(), minIoProperties.getPort(), objectUrl);
         }

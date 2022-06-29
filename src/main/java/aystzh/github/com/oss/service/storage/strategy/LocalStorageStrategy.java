@@ -4,7 +4,7 @@ import aystzh.github.com.oss.annotations.StorageType;
 import aystzh.github.com.oss.config.LocalStorageConfigInfo;
 import aystzh.github.com.oss.enums.StoreTypeEnum;
 import aystzh.github.com.oss.po.StorageParamsPo;
-import aystzh.github.com.oss.response.FileResponse;
+import aystzh.github.com.oss.response.StorageInfoResponse;
 import aystzh.github.com.oss.service.storage.StorageStrategy;
 import aystzh.github.com.oss.utils.FileUploadUtils;
 import cn.hutool.core.date.DateTime;
@@ -40,7 +40,7 @@ public class LocalStorageStrategy implements StorageStrategy {
 
 
     @Override
-    public List<FileResponse> upload(StorageParamsPo storageParamsPo) throws Exception {
+    public List<StorageInfoResponse> upload(StorageParamsPo storageParamsPo) throws Exception {
         log.info("进入LOCAL STORAGE存储");
         String root = localStorageConfigInfo.getRoot();
         String project = storageParamsPo.getProject();
@@ -57,7 +57,7 @@ public class LocalStorageStrategy implements StorageStrategy {
         File rootFile = new File(root);
         int start = rootFile.getAbsolutePath().length();
         String currentTimeString = DateTime.now().toString("yyyyMMddHHmmss");
-        List<FileResponse> fileRespons = Lists.newArrayList();
+        List<StorageInfoResponse> fileRespons = Lists.newArrayList();
         //按月目录
         final String monthPath = currentTimeString.substring(0, 6);
         //按日目录,如W020151111
@@ -104,8 +104,11 @@ public class LocalStorageStrategy implements StorageStrategy {
             IOUtils.closeQuietly(ins);
             //不可执行,防止恶意脚本攻击system
             targetFile.setExecutable(false);
-            FileResponse fileResponse = new FileResponse(originalName, url, storePathBuffer.toString());
-            fileRespons.add(fileResponse);
+            StorageInfoResponse storageInfoResponse = new StorageInfoResponse();
+            storageInfoResponse.setFileName(originalName);
+            storageInfoResponse.setFilePath(url);
+            storageInfoResponse.setPathDir(storePathBuffer.toString());
+            fileRespons.add(storageInfoResponse);
         }
         return fileRespons;
     }

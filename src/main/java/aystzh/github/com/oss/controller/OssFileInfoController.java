@@ -5,7 +5,7 @@ import aystzh.github.com.oss.enums.StoreTypeEnum;
 import aystzh.github.com.oss.exception.BizException;
 import aystzh.github.com.oss.exception.enums.CommonEnum;
 import aystzh.github.com.oss.po.StorageParamsPo;
-import aystzh.github.com.oss.response.FileResponse;
+import aystzh.github.com.oss.response.StorageInfoResponse;
 import aystzh.github.com.oss.service.storage.StorageStrategyContext;
 import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -38,7 +38,7 @@ public class OssFileInfoController extends BaseController {
         storageParamsPo.setFiles(files);
         storageParamsPo.setStoreTypeEnum(storeType);
         storageParamsPo.setProject(project);
-        List<FileResponse> fileRespons = storageStrategyContext.getInstance(storeType).upload(storageParamsPo);
+        List<StorageInfoResponse> fileRespons = storageStrategyContext.getInstance(storeType).upload(storageParamsPo);
         return ResultBody.success(fileRespons);
     }
 
