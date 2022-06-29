@@ -1,22 +1,19 @@
 package aystzh.github.com.oss.controller;
 
 import aystzh.github.com.oss.common.ResultBody;
-import aystzh.github.com.oss.config.LocalStorageConfigInfo;
 import aystzh.github.com.oss.enums.StoreTypeEnum;
+import aystzh.github.com.oss.exception.BizException;
+import aystzh.github.com.oss.exception.enums.CommonEnum;
 import aystzh.github.com.oss.po.StorageParamsPo;
 import aystzh.github.com.oss.response.FileResponse;
 import aystzh.github.com.oss.service.storage.StorageStrategyContext;
-import aystzh.github.com.oss.utils.FileUploadUtils;
+import cn.hutool.core.util.StrUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 
@@ -41,9 +38,17 @@ public class OssFileInfoController extends BaseController {
         storageParamsPo.setFiles(files);
         storageParamsPo.setStoreTypeEnum(storeType);
         storageParamsPo.setProject(project);
-        List<FileResponse> fileRespons = storageStrategyContext.getInstance(storeType).saveAndStore(storageParamsPo);
+        List<FileResponse> fileRespons = storageStrategyContext.getInstance(storeType).upload(storageParamsPo);
         return ResultBody.success(fileRespons);
     }
 
 
+    @GetMapping("/download")
+    public void download(@RequestParam(value = "fileId") String fileId, @RequestParam(value = "storeType") StoreTypeEnum storeType,
+                         HttpServletResponse response) throws Exception {
+        if (StrUtil.isBlank(fileId)) {
+            throw new BizException(CommonEnum.FILE_ID_CAN_NOT_BE_NULL);
+        }
+        storageStrategyContext.getInstance(storeType).download(fileId, response);
+    }
 }

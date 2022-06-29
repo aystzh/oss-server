@@ -21,10 +21,11 @@
         <configuration.version>1.9</configuration.version>
         <hutool.version>5.7.21</hutool.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
-        <guava.version>23.0</guava.version>
+        <guava.version>31.1-jre</guava.version>
         <org.hibernate.validator.version>6.2.0.Final</org.hibernate.validator.version>
         <lombok.version>1.18.22</lombok.version>
         <fastdfs.client.version>1.26.6</fastdfs.client.version>
+        <io.minio.version>7.0.2</io.minio.version>
     </properties>
 
     <dependencies>
@@ -43,12 +44,29 @@
             <version>${springboot.version}</version>
         </dependency>
 
+        <!-- storage start -->
+        <!-- mogodb存储-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-mongodb</artifactId>
+            <version>${springboot.version}</version>
+        </dependency>
+
         <!--FAST DFS -->
         <dependency>
             <groupId>com.github.tobato</groupId>
             <artifactId>fastdfs-client</artifactId>
             <version>${fastdfs.client.version}</version>
         </dependency>
+
+        <!--minio  -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${io.minio.version}</version>
+        </dependency>
+        <!-- storage end  -->
+
 
         <!--工具包 start-->
         <dependency>

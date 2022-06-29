@@ -18,6 +18,7 @@ public enum CommonEnum implements BaseErrorInfoInterface {
     PROJECT_NAME_CAN_NOT_BE_NULL("2001", "项目名称不能为空!"),
     PROJECT_NAME_CAN_NOT_CONTAINS_REGEX("2002", "项目名称不能包含特殊字符!/ /: *?<>|"),
     PROJECT_NAME_CAN_NOT_CONTAINS_CHINESE("2003", "项目名称不能包含中文或者\\s"),
+    FILE_ID_CAN_NOT_BE_NULL("2004", "文件id不能为空!"),
 
     ;
 

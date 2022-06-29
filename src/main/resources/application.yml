@@ -10,6 +10,10 @@ spring:
       max-file-size: 1024MB
       enabled: true
       max-request-size: 1024MB
+#MongoDB配置
+  data:
+    mongodb:
+      uri: mongodb://bmsmart:Bmzt2016_mongodb@10.0.46.53:27017/bmsmart
 
 
 oss:
@@ -18,13 +22,16 @@ oss:
       enabled: true
     fdfs:
       enabled: true
+    minio:
+      enabled: true
+    mongodb:
+      enabled: true
 
 #######存储配置设置#########
 local:
   root: /Users/zhanghuan/Desktop/upload
   invokingRoot: 192.168.0.7
 
-###FASTDFS CONFIG START###
 fdfs:
   connect-timeout: 600
   so-timeout: 1500
@@ -36,5 +43,17 @@ fdfs:
   http: 10.0.46.130:40002
   pool:
     jmx-enabled: false
+
+minio:
+  # minio服务地址
+  endpoint: http://10.0.43.203
+  #端口
+  port: 9000
+  # 账号
+  accessKey: admin
+  # 密码
+  secretKey: Bmzt2016_minio
+  # 桶名称(根目录文件夹名称)
+  bucketName: know
 
 #######存储配置设置#########

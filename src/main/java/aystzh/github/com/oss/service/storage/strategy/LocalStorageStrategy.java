@@ -17,6 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -39,7 +40,7 @@ public class LocalStorageStrategy implements StorageStrategy {
 
 
     @Override
-    public List<FileResponse> saveAndStore(StorageParamsPo storageParamsPo) throws Exception {
+    public List<FileResponse> upload(StorageParamsPo storageParamsPo) throws Exception {
         log.info("进入LOCAL STORAGE存储");
         String root = localStorageConfigInfo.getRoot();
         String project = storageParamsPo.getProject();
@@ -107,6 +108,10 @@ public class LocalStorageStrategy implements StorageStrategy {
             fileRespons.add(fileResponse);
         }
         return fileRespons;
+    }
+
+    @Override
+    public void download(String fileId, HttpServletResponse response) throws Exception {
     }
 
 }
