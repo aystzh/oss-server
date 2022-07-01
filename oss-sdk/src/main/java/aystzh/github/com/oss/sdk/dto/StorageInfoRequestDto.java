@@ -1,6 +1,6 @@
 package aystzh.github.com.oss.sdk.dto;
 
-import aystzh.github.com.oss.sdk.enums.StoreTypeEnum;
+import com.alibaba.fastjson.annotation.JSONField;
 import lombok.Data;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -14,8 +14,9 @@ public class StorageInfoRequestDto implements Serializable {
 
     private String projectName;
 
-    private StoreTypeEnum storeType;
+    private String storeType;
 
+    @JSONField(serialize = false)
     private MultipartFile[] files;
 
     private String bucketName;

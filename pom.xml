@@ -30,6 +30,7 @@
         <springboot.version>2.6.3</springboot.version>
         <configuration.version>1.9</configuration.version>
         <hutool.version>5.7.21</hutool.version>
+        <fastjson.version>1.2.58</fastjson.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
         <guava.version>31.1-jre</guava.version>
         <org.hibernate.validator.version>6.2.0.Final</org.hibernate.validator.version>
@@ -41,7 +42,7 @@
 
     <dependencyManagement>
     <dependencies>
-
+        <!-- 通用组件 start -->
         <dependency>
             <groupId>aystzh.github.com</groupId>
             <artifactId>oss-sdk</artifactId>
@@ -52,6 +53,8 @@
             <artifactId>oss-common</artifactId>
             <version>${oss.server.sdk.version}</version>
         </dependency>
+        <!-- 通用组件 start -->
+
         <!-- SpringCloud 微服务 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
@@ -138,6 +141,12 @@
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-all</artifactId>
             <version>${hutool.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
         </dependency>
 
         <dependency>

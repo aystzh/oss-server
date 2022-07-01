@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
-import java.util.Objects;
 
 
 /**
@@ -31,18 +30,18 @@ public class OssFileInfoController {
 
     @PostMapping("/upload")
     public ResultBody uploadMaterial(StorageInfoRequestDto requestDto) throws Exception {
-        //验证文件夹规则,不能包含特殊字符
-        StoreTypeEnum storeType = requestDto.getStoreType();
-        if (Objects.isNull(storeType)) {
+        String storeType = requestDto.getStoreType();
+        if (StrUtil.isBlank(storeType)) {
             throw new BizException(CommonEnum.STORE_TYPE_IS_NULL);
         }
-        List<StorageInfoResponseDto> fileRespond = storageStrategyContext.getInstance(storeType).upload(requestDto);
+        StoreTypeEnum storeTypeEnum = StoreTypeEnum.get(storeType);
+        List<StorageInfoResponseDto> fileRespond = storageStrategyContext.getInstance(storeTypeEnum).upload(requestDto);
         return ResultBody.success(fileRespond);
     }
 
 
     @GetMapping("/download")
-    public void download(@RequestParam(value = "fileId") String fileId, @RequestParam(value = "storeType") StoreTypeEnum storeType,
+    public void download(@RequestParam(value = "fileId") String fileId, @RequestParam(value = "storeType") String storeType,
                          HttpServletResponse response) throws Exception {
         if (StrUtil.isBlank(fileId)) {
             throw new BizException(CommonEnum.FILE_ID_CAN_NOT_BE_NULL);
