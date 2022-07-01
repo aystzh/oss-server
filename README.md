@@ -32,7 +32,7 @@ spring:
         file-extension: yaml
 ```
 
-PS：这里需要使用base-oss-server.yml配置相关存储服务配置信息 其中涉及到一下几个开关都是配合使用的。如：
+PS：这里需要使用base-oss-server.yml配置相关存储服务配置信息 其中涉及到以下几个开关需要配合使用。如：
 
 ```yaml
 #各个配置启动开关是否开启
@@ -87,4 +87,6 @@ mongodb:
 
 ### 第三方引入方式
 
-本地maven install oss-sdk到自己本地仓库或者 maven deploy到公司私服仓库，相关消费方pom文件导入依赖即可
+- 本地maven install oss-sdk到自己本地仓库或者 maven deploy到公司私服仓库，相关消费方pom文件导入依赖
+
+- 配置oss-service bootstrap.yml和base-oss-server.yaml文件信息 配置格式参考resource下的配置即可。base-oss-server.yaml需要导入到Nacos配置中心。Nacos相关学习资料可参考[我的这个项目](https://github.com/aystzh/spring-cloud-alibaba-study)
