@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: base-oss-server
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 10.0.46.55:8848
+        group: DEVELOP_ZH_GROUP
+#        namespace: 7f0da23b-1812-4196-90ef-5efc0d47750a
+        namespace: 424a08e2-9fe0-4439-8cec-ac56d36ee8f4
+      config:
+        server-addr: 10.0.46.55:8848
+        group: DEVELOP_ZH_GROUP
+#        namespace: 7f0da23b-1812-4196-90ef-5efc0d47750a
+        namespace: 424a08e2-9fe0-4439-8cec-ac56d36ee8f4
+        prefix: base-oss-server
+        file-extension: yaml
