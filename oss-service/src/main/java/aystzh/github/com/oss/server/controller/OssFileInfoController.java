@@ -46,6 +46,10 @@ public class OssFileInfoController {
         if (StrUtil.isBlank(fileId)) {
             throw new BizException(CommonEnum.FILE_ID_CAN_NOT_BE_NULL);
         }
-        storageStrategyContext.getInstance(storeType).download(fileId, response);
+        if (StrUtil.isBlank(storeType)) {
+            throw new BizException(CommonEnum.STORE_TYPE_IS_NULL);
+        }
+        StoreTypeEnum storeTypeEnum = StoreTypeEnum.get(storeType);
+        storageStrategyContext.getInstance(storeTypeEnum).download(fileId, response);
     }
 }
