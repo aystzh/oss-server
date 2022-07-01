@@ -16,7 +16,7 @@ spring:
 #MongoDB配置
   data:
     mongodb:
-      uri: mongodb://bmsmart:Bmzt2016_mongodb@10.0.46.53:27017/bmsmart
+      uri: mongodb://xxx:xxx@10.0.xx.xx:27017/xxx
 
 #各个配置启动开关是否开启
 oss:
@@ -32,8 +32,8 @@ oss:
 
 #######存储配置设置#########
 local:
-  root: /Users/zhanghuan/Desktop/upload
-  invokingRoot: 192.168.0.7
+  root: /Users/xxx/Desktop/upload
+  invokingRoot: 192.xxx.xx.xx
 
 fdfs:
   connect-timeout: 600
@@ -42,26 +42,26 @@ fdfs:
     height: 150
     width: 150
   tracker-list:
-    - 10.0.46.130:44144
-  http: 10.0.46.130:40002
+    - 10.0.xxx.xxx:44144
+  http: 10.0.xxx.xxx:40002
   pool:
     jmx-enabled: false
 
 minio:
   # minio服务地址
-  endpoint: http://10.0.43.203
+  endpoint: http://10.0.xx.xxx
   #端口
   port: 9000
   # 账号
-  accessKey: admin
+  accessKey: xxx
   # 密码
-  secretKey: Bmzt2016_minio
+  secretKey: xxxxxx
   # 桶名称(根目录文件夹名称)
-  bucketName: know
+  bucketName: xxx
 
 mongodb:
   uri: 10.0.46.53:27017
-  username: bmsmart
-  password: Bmzt2016_mongodb
-  schema: bmsmart
+  username: xxx
+  password: xxxxxx
+  schema: xxx
 #######存储配置设置#########
