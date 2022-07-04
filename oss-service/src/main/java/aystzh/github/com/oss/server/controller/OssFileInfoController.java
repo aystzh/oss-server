@@ -29,7 +29,7 @@ public class OssFileInfoController {
     private StorageStrategyContext storageStrategyContext;
 
     @PostMapping("/upload")
-    public ResultBody uploadMaterial(StorageInfoRequestDto requestDto) throws Exception {
+    public ResultBody upload(StorageInfoRequestDto requestDto) throws Exception {
         String storeType = requestDto.getStoreType();
         if (StrUtil.isBlank(storeType)) {
             throw new BizException(CommonEnum.STORE_TYPE_IS_NULL);

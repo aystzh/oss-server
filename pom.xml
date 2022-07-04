@@ -53,7 +53,7 @@
             <artifactId>oss-common</artifactId>
             <version>${oss.server.sdk.version}</version>
         </dependency>
-        <!-- 通用组件 start -->
+        <!-- 通用组件 end -->
 
         <!-- SpringCloud 微服务 -->
         <dependency>

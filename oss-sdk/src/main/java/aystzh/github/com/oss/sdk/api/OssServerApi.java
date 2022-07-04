@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 public interface OssServerApi {
 
     @PostMapping(value = "/upload", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResultBody uploadMaterial(StorageInfoRequestDto requestDto) throws Exception;
+    ResultBody upload(StorageInfoRequestDto requestDto) throws Exception;
 
     @GetMapping("/download")
     void download(@RequestParam(value = "fileId") String fileId, @RequestParam(value = "storeType") String storeType,
